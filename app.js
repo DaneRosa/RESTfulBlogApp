@@ -29,12 +29,6 @@ var blogSchema = new mongoose.Schema({
 //MONGOOSE/MODEL CONFIG
 var Blog = mongoose.model("Blog", blogSchema);
 
-// Blog.create({
-//     title: "Test Blog",
-//     image: "http://www.ikonet.com/fr/alimentation/assets/images/EVACD/03-Fruits/05-Fruits%20%C3%A0%20p%C3%A9p/Coing%20564/Coing.png",
-//     body: "Do you even fruit?"
-// });
-
 //RESTFUL ROUTES
 app.get("/", function (req, res){
     res.redirect("/blogs");
@@ -93,9 +87,14 @@ app.get("/blogs/:id/edit", function(req,res){
    })
 });
 
+// This is being a bitch and returning an error: 
+// { CastError: Cast to ObjectId failed for value " 5ac4f042af52292a333570e7" at path "_id" for model "Blog"
+
 //UPDATE ROUTE
 app.put("/blogs/:id", function(req, res){
-  Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+  
+  // Blog.findOneAndUpdate(req.params.id, { _id: req.params.id }, req.body.blog, function(err, updatedBlog){
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
        if(err) {
            console.log(err);
            } else {
@@ -106,18 +105,18 @@ app.put("/blogs/:id", function(req, res){
 
 
 
-//DELETE ROUTE
-// app.delete("/blogs/:id", function(req, res){
-//    //destroy blog
-//    Blog.findByIdAndRemove(req.params.id, function(err){
-//        if (err) {
-//            res.redirect("/blogs");
-//        } else {
-//            res.redirect("/blogs");
-//        }
-//    });
-   //redirect somewhere
-// });
+// DELETE ROUTE
+app.delete("/blogs/:id", function(req, res){
+   //destroy blog
+   Blog.findByIdAndRemove(req.params.id, function(err){
+       if (err) {
+           res.redirect("/blogs");
+       } else {
+           res.redirect("/blogs");
+       }
+   });
+   // redirect somewhere
+});
 
 app.listen(3000, function(){
   console.log("++++++++++++++ RSETful blog app is up and running ++++++++++++++");
