@@ -10,8 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
+    "express-sanitizer": "^1.0.3",
     "method-override": "^2.3.10",
     "mongoose": "^5.0.12",
     "sunlight": "^0.1.0"

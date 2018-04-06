@@ -1,14 +1,14 @@
 //GETTING STARTED, DEFAULT SHIT NEEDED
 
-//including our frameworks/libraries
 var express     = require("express"),
 methodOverride  = require("method-override"),
 bodyParser      = require("body-parser"),
 mongoose        = require("mongoose"),
 app             = express();
+require('dotenv').config({ path: 'variables.env' });
 
 // APP CONFIG
-mongoose.connect("mongodb://localhost/restful_blog_app"); //connecting mongo -> THE NAME OF WHAT WE WILL LOOK FOR IN MONGO
+mongoose.connect(process.env.DATABASE); //connecting mongo -> THE NAME OF WHAT WE WILL LOOK FOR IN MONGO
 app.set("view engine", "ejs"); //connecting ejs
 app.use(express.static("public")); //using express
 app.use(bodyParser.urlencoded({extended: true})); //using body-parser
@@ -90,18 +90,18 @@ app.get("/blogs/:id/edit", function(req,res){
 // This is being a bitch and returning an error: 
 // { CastError: Cast to ObjectId failed for value " 5ac4f042af52292a333570e7" at path "_id" for model "Blog"
 
-//UPDATE ROUTE
-// app.put("/blogs/:id", function(req, res){
-//     console.log(req.params.id);
-//     console.log(req.body.blog);
-//     Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
-//        if(err) {
-//            console.log(err);
-//            } else {
-//                res.redirect(`/blogs/${req.params.id}`);
-//            }
-//    }); 
-// });
+// UPDATE ROUTE
+app.put("/blogs/:id", function(req, res) {
+	// sanitize the input
+	// req.body.blog.body = req.sanitize(req.body.blog.body);
+	Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog) {
+		if(err) {
+			res.redirect("/blogs");
+		} else {
+			res.redirect("/blogs/" + req.params.id);
+		}
+	});
+});
 
 
 // DELETE ROUTE
