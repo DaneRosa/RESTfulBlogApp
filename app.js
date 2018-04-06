@@ -90,18 +90,18 @@ app.get("/blogs/:id/edit", function(req,res){
 // This is being a bitch and returning an error: 
 // { CastError: Cast to ObjectId failed for value " 5ac4f042af52292a333570e7" at path "_id" for model "Blog"
 
-//UPDATE ROUTE
-// app.put("/blogs/:id", function(req, res){
-//     console.log(req.params.id);
-//     console.log(req.body.blog);
-//     Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
-//        if(err) {
-//            console.log(err);
-//            } else {
-//                res.redirect(`/blogs/${req.params.id}`);
-//            }
-//    }); 
-// });
+// UPDATE ROUTE
+app.put("/blogs/:id", function(req, res){
+    console.log(req.params.id);
+    console.log(req.body.blog);
+    Blog.findByIdAndUpdate(req.params._id, req.body,{new: true}, function(err, updatedBlog){
+       if(err) {
+           console.log(err);
+           } else {
+               res.redirect(`/blogs/${req.params.id}`);
+           }
+   }); 
+});
 
 
 // DELETE ROUTE
